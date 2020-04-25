@@ -96,7 +96,10 @@ def prompt(questions, answers=None, **kwargs):
                 print('')
             return {}
     
-    utils.handleCallbacks(questions, answers)    
+    if return_asyncio_coroutine == False:
+        utils.handleCallbacks(questions, answers)
+    else:
+        utils.handleFurtureCallbacks(questions, answers)
 
     return answers
 

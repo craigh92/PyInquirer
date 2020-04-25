@@ -11,21 +11,27 @@ futures = []
 # While the background task is executing, the prompt can be continued to be used
 # When the background task finishes (i.e, makes an option available / disabled), the prompt will refresh
 
-def barCallback(): print("You picked Bar!")
+# Choices:
+
 bar = {
     'name' : 'Bar',
     'disabled' : False,
-    'callback' : barCallback
+    'callback' : lambda x : print("You picked Bar!")
 }
 
-def fooCallback(): print("You picked Foo!")
 foo = {
     'name' : 'Foo',
     'disabled' : False,
-    'callback' : fooCallback
+    'callback' : lambda x : print("you picked Foo!")
 }
 
-def disableFooCallback():
+exit = {
+    'name' : 'Exit',
+    'disabled' : False,
+    'callback' : lambda x : loop.stop()
+}
+
+def disableFooCallback(x):
     disableFoo['disabled'] = "Not Available"
     
     # Schdule a job to make the option foo disabled in 2 secconds
@@ -36,14 +42,8 @@ def disableFooCallback():
         
     print("Schedulng task!")
     loop.create_task(job())
-    
-disableFoo = {
-    'name' : 'Disable Foo',
-    'disabled' : False,
-    'callback' : disableFooCallback
-}
 
-def enableFooCallback():
+def enableFooCallback(x):
     enableFoo['disabled'] = "Not Available"
     
     # Schdule a job to make the option foo available in 2 secconds
@@ -54,22 +54,19 @@ def enableFooCallback():
 
     print("Schedulng task!")
     loop.create_task(job())
-        
+ 
+disableFoo = {
+    'name' : 'Disable Foo',
+    'disabled' : False,
+    'callback' : disableFooCallback
+}
+
 enableFoo = {
     'name' : 'Enable Foo',
     'disabled' : "Not Available",
     'callback' : enableFooCallback
 }
-
-
-
-def exitCb(): loop.stop()
-exit = {
-    'name' : 'Exit',
-    'disabled' : False,
-    'callback' : exitCb
-}
-
+        
 options = {
     'type': 'list',
     'name': 'choice',
@@ -84,19 +81,10 @@ options = {
 }
 
 async def myprompt():
-    
-    future_answers_generator = prompt(options, patch_stdout = True, return_asyncio_coroutine = True, eventloop = loop, refresh_interval = 1)['choice']    
-    future = asyncio.ensure_future(future_answers_generator)
-    
-    if len(futures) == 0:
-        futures.append(future)
-    else:
-        futures.pop()
-        futures.append(future)
+    prompt(options, patch_stdout = True, return_asyncio_coroutine = True, eventloop = loop, refresh_interval = 1)['choice']    
 
 # === Start Program ===
 
 loop.create_task(myprompt())
 loop.run_forever()
-
 

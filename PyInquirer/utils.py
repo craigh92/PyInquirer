@@ -34,12 +34,10 @@ def print_json(data):
     #                          formatters.TerminalFormatter())
     pprint(colorize_json(format_json(data)))
 
-def handleCallbacks(questions, answers):
-    for a in answers:
-        if asyncio.isfuture(a):
-            raise NotImplementedError("Future callbacks not yet implemented")
+def handleCallbacks(questions, answers):        
     
     for question in questions:
+        
         if 'choices' in question:
             questionName = question['name']
             answer = answers[questionName]
@@ -49,3 +47,16 @@ def handleCallbacks(questions, answers):
                 for opt in possibleChoices:
                     if opt['name'] == answer:
                         opt['callback'](answers)
+                        
+def handleFurtureCallbacks(questions, answers):
+    
+    for key in answers:
+        ans = answers[key] 
+        future = asyncio.ensure_future(ans)
+        
+        def on_future_done(future):
+            result = future.result()
+            print("result is " + result)
+            #To Do, use the result to call the callback
+        
+        future.add_done_callback(on_future_done)
