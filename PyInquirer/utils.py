@@ -3,7 +3,7 @@ from __future__ import print_function
 import json
 import sys
 from pprint import pprint
-
+import asyncio
 from pygments import highlight, lexers, formatters
 
 __version__ = '0.1.2'
@@ -35,6 +35,10 @@ def print_json(data):
     pprint(colorize_json(format_json(data)))
 
 def handleCallbacks(questions, answers):
+    for a in answers:
+        if asyncio.isfuture(a):
+            raise NotImplementedError("Future callbacks not yet implemented")
+    
     for question in questions:
         if 'choices' in question:
             questionName = question['name']
