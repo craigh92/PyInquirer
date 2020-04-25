@@ -7,6 +7,10 @@ loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 futures = []
 
+# An example demonstrating choices becoming disabled as a result of something happening in the background.
+# While the background task is executing, the prompt can be continued to be used
+# When the background task finishes (i.e, makes an option available / disabled), the prompt will refresh
+
 def barCallback(): print("You picked Bar!")
 bar = {
     'name' : 'Bar',
