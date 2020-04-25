@@ -1,23 +1,34 @@
 from PyInquirer import prompt
 
-operations = {
+operations = [{
     'type' : 'list',
-    'name' : 'operation',
+    'name' : 'operation1',
     'message' : 'Choose operation',
     'choices' : [
         {
             'name' : 'Say Hello',
-            'callback' : lambda x: [print("Hello!"), prompt(operations)] # print "Hello!", and then start the prompt again
+            'callback' : lambda x: [print("Hello!")] 
         },
         {
             'name' : 'Say World',
-            'callback' : lambda x: [ print("World!") , prompt(operations)] # print "World!", and then start the prompt again
-        },
-        {
-            'name' : 'Exit',
-            'callback' : lambda x: print("Goodbye!") # print "Goodbye!", but do not start the prompt again
+            'callback' : lambda x: [print("World!")]
         }
     ]
-}
+},
+{
+    'type' : 'list',
+    'name' : 'operation2',
+    'message' : 'Choose operation',
+    'choices' : [
+        {
+            'name' : 'Say Foo',
+            'callback' : lambda x: [print("Foo!")]
+        },
+        {
+            'name' : 'Say Bar',
+            'callback' : lambda x: [print("Bar!")]
+        }
+    ]
+}]
 
-a = prompt(operations)
+prompt(operations)
