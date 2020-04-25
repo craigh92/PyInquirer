@@ -97,15 +97,18 @@ def prompt(questions, answers=None, **kwargs):
             return {}
 
     #Handle callbacks
-    for promptName in answers:
-        choices = question.get('choices')
-        for choice in choices:
-            if choice['name'] == answers[promptName]:
-                name = choice['name']
-                for choice in choices:
-                    if choice['name'] == name:
-                        if 'callback' in choice:
-                            choice['callback']()
+    for question in questions:
+        if 'choices' in question:
+            questionName = question['name']
+            answer = answers[questionName]
+            possibleChoices = question['choices']
+            if possibleChoices is not None:
+                #find the choice that matches the answer
+                for opt in possibleChoices:
+                    if opt['name'] == answer:
+                        opt['callback'](answers)
+            
+        
 
     return answers
 
