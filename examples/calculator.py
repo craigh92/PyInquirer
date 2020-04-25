@@ -11,21 +11,21 @@ questions = [
                 'name' : 'Add',
                 'callback' : lambda answers: [
                     print("The answer is: " + str(float(answers['first_value']) + float(answers['second_value']))), # callbacks are not called untill every prompt has been asked
-                    prompt(questions)
+                    prompt(questions) # start the prompt again
                 ]
             },
             {
                 'name' : 'Subtract',
                 'callback' : lambda answers: [
                     print("The answer is: " + str(float(answers['first_value']) - float(answers['second_value']))), # callbacks are not called untill every prompt has been asked
-                    prompt(questions)
+                    prompt(questions) # start the prompt again
                 ]
             },
             {
                 'name' : 'Sin',
                 'callback' : lambda answers: [
                     print("The answer is: " + str(math.sin(float(answers['first_value'])))), # callbacks are not called untill every prompt has been asked
-                    prompt(questions)
+                    prompt(questions) # start the prompt again
                 ]
             },
             {
