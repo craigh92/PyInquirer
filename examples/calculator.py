@@ -9,15 +9,24 @@ questions = [
         'choices' : [
             {
                 'name' : 'Add',
-                'callback' : lambda answers: print("The answer is: " + str(float(answers['first_value']) + float(answers['second_value']))) # callbacks are not called untill every prompt has been asked
+                'callback' : lambda answers: [
+                    print("The answer is: " + str(float(answers['first_value']) + float(answers['second_value']))), # callbacks are not called untill every prompt has been asked
+                    prompt(questions)
+                ]
             },
             {
                 'name' : 'Subtract',
-                'callback' : lambda answers: print("The answer is: " + str(float(answers['first_value']) - float(answers['second_value']))) # callbacks are not called untill every prompt has been asked
+                'callback' : lambda answers: [
+                    print("The answer is: " + str(float(answers['first_value']) - float(answers['second_value']))), # callbacks are not called untill every prompt has been asked
+                    prompt(questions)
+                ]
             },
             {
                 'name' : 'Sin',
-                'callback' : lambda answers: print("The answer is: " + str(math.sin(float(answers['first_value'])))) # callbacks are not called untill every prompt has been asked
+                'callback' : lambda answers: [
+                    print("The answer is: " + str(math.sin(float(answers['first_value'])))), # callbacks are not called untill every prompt has been asked
+                    prompt(questions)
+                ]
             },
             {
                 'name' : 'Exit',
@@ -39,4 +48,4 @@ questions = [
     }
 ]
 
-answers = prompt(questions)
+prompt(questions)
