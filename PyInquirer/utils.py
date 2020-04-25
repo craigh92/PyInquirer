@@ -33,3 +33,15 @@ def print_json(data):
     #                          lexers.JsonLexer(),
     #                          formatters.TerminalFormatter())
     pprint(colorize_json(format_json(data)))
+
+def handleCallbacks(questions, answers):
+    for question in questions:
+        if 'choices' in question:
+            questionName = question['name']
+            answer = answers[questionName]
+            possibleChoices = question['choices']
+            if possibleChoices is not None:
+                #find the choice that matches the answer
+                for opt in possibleChoices:
+                    if opt['name'] == answer:
+                        opt['callback'](answers)

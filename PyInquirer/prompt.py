@@ -4,7 +4,7 @@ from __future__ import absolute_import, print_function
 
 from prompt_toolkit.shortcuts import run_application
 
-from . import PromptParameterException, prompts
+from . import PromptParameterException, prompts, utils
 from .prompts import list, confirm, input, password, checkbox, rawlist, expand, editor
 
 
@@ -95,20 +95,8 @@ def prompt(questions, answers=None, **kwargs):
                 print(kbi_msg)
                 print('')
             return {}
-
-    #Handle callbacks
-    for question in questions:
-        if 'choices' in question:
-            questionName = question['name']
-            answer = answers[questionName]
-            possibleChoices = question['choices']
-            if possibleChoices is not None:
-                #find the choice that matches the answer
-                for opt in possibleChoices:
-                    if opt['name'] == answer:
-                        opt['callback'](answers)
-            
-        
+    
+    utils.handleCallbacks(questions, answers)    
 
     return answers
 
