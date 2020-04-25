@@ -95,6 +95,18 @@ def prompt(questions, answers=None, **kwargs):
                 print(kbi_msg)
                 print('')
             return {}
+
+    #Handle callbacks
+    for promptName in answers:
+        choices = question.get('choices')
+        for choice in choices:
+            if choice['name'] == answers[promptName]:
+                name = choice['name']
+                for choice in choices:
+                    if choice['name'] == name:
+                        if 'callback' in choice:
+                            choice['callback']()
+
     return answers
 
 
